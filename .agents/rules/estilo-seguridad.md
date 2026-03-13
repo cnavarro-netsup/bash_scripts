@@ -37,7 +37,8 @@ Todos los scripts deben tener el siguiente header (luego de set -euo pipefail)
 #------+---------+---------+---------+---------+---------+---------+---------+
 # NOMBRE: <nombre del script>
 # VERSION: x.x.x
-# AUTOR: CPN + ChatGPT
+# AUTOR: CPN
+# MODELO: <Nombre del Modelo AI>
 # FECHA: <fecha>
 # DESCRIPCION: <breve descripción del propósito>
 # ...
@@ -255,7 +256,7 @@ Opciones:
   -g  Nombre del VG (default: $VG_NAME_DEFAULT)
   -s  Nombre del snapshot LVM (default: $SNAP_NAME_DEFAULT)
   -d  Debug (activa trazas de log extra)
-  -y, --yes      Asumir "sí" a las confirmaciones
+  -y, --yes      Asumir "sí" a las interacciones y ejecutar en modo silencioso (batch/cron)
   -D, --dry-run  Mostrar lo que se ejecutaría sin hacer cambios destructivos
   -h, --help     Mostrar esta ayuda
 

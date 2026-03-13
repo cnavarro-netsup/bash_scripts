@@ -35,10 +35,10 @@ Este flujo garantiza que cada nuevo proyecto de Bash siga la metodología **Spec
 4. **Integrar Librerías Obligatorias:**
    - El script DEBE importar siempre `logger.sh`.
    - Según el `design.md`, evaluar si se debe conservar la importación de `ssh_utils.sh` o `sqlite_utils.sh`.
-5. **Desarrollar Lógica y Parseo:**
+4. **Desarrollar Lógica y Parseo:**
    - Implementar las opciones acordadas en la sección 4.1 del script (parseo de argumentos).
    - Actualizar `usage()`.
-   - Insertar la lógica en la sección 4.6 respetando la ejecución `--dry-run`.
+   - Insertar la lógica en la sección 4.6. Si el proyecto realiza **operaciones destructivas** (modificación/eliminación de datos o archivos), implementar y respetar el flag `--dry-run`. De lo contrario, omitirlo.
 6. Otorgar permisos de ejecución: `chmod +x scripts/<nombre_script>.sh`.
 
 ## FASE 5: Verificación y Tests (Verification Phase)
@@ -46,8 +46,12 @@ Este flujo garantiza que cada nuevo proyecto de Bash siga la metodología **Spec
 2. Escribir pruebas unitarias (Bats) comprobando los Criterios de Aceptación (AC).
 3. Asegurarse de ejecutar `shellcheck scripts/*.sh` comprobando que no haya errores de sintaxis (linting).
 
+## FASE 6: Documentación (Documentation Phase)
+1. El agente DEBE generar un archivo `Readme.md` en la raíz del proyecto `<nombre_proyecto>/`.
+2. El documento contrendrá: Descripción detallada del objetivo del script, modo de uso, explicación de cada bandera/argumento, límites definidos y ejemplos claros de ejecución.
+
 ## Reglas de Seguridad (Safety Rules)
-- Siempre implementar flag `--dry-run`.
+- Implementar flag `--dry-run` **solo si el script incluye operaciones destructivas** (ej. modificaciones o eliminaciones del entorno).
 - Validar todos los paths con `realpath`.
 - No usar `rm` sin guardrails (rutas estrictas).
 - Requerir confirmación formal para operaciones destructivas.
