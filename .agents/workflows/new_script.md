@@ -49,6 +49,7 @@ Este flujo garantiza que cada nuevo proyecto de Bash siga la metodología **Spec
 ## FASE 6: Documentación (Documentation Phase)
 1. El agente DEBE generar un archivo `Readme.md` en la raíz del proyecto `<nombre_proyecto>/`.
 2. El documento contrendrá: Descripción detallada del objetivo del script, modo de uso, explicación de cada bandera/argumento, límites definidos y ejemplos claros de ejecución.
+3. El flujo global también requiere una anota en el `Readme.md` principal del repositorio indicando que se añadió el nuevo script, con su breve descripción y dónde encontrarlo.
 
 ## Reglas de Seguridad (Safety Rules)
 - Implementar flag `--dry-run` **solo si el script incluye operaciones destructivas** (ej. modificaciones o eliminaciones del entorno).
