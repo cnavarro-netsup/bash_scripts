@@ -1,0 +1,10 @@
+- hacer un script en Linux bash que sume 2 números reales proporcionados como argumentos.
+- no ese necesario invocar dichos núemeros con ninguna opción.
+- los argumentos deben ser 2. más o menos argumentos se tomará como un error.
+- los números deben ser reales con o sin decimales.
+- la cantidad de decimales máxima debe ser 2.
+- este es un ejemplo de número con decimales válido: 3.45 , 0,2 , -35.3 , 12
+- no es necesario el uso de variables porporcionadas por el entorno.
+- no hay operaciones destructivas, por lo que no es necesario modo DRY-RUN.
+- no es necesario utilizar la opción -y
+- los logs se enviarán por standar error.
