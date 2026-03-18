@@ -45,6 +45,7 @@ Este flujo garantiza que cada nuevo proyecto de Bash siga la metodología **Spec
 1. Crear el archivo de pruebas unitarias en `tests/test_<nombre_script>.bats`.
 2. Escribir pruebas unitarias (Bats) comprobando los Criterios de Aceptación (AC).
 3. Asegurarse de ejecutar `shellcheck scripts/*.sh` comprobando que no haya errores de sintaxis (linting).
+4. Ejecutar la validación común del repositorio con `make checks` o `./ci/run_checks.sh -p <nombre_proyecto>` para correr `shellcheck` + `bats` y registrar el resultado en `tmp/checks/latest.log`.
 
 ## FASE 6: Documentación (Documentation Phase)
 1. El agente DEBE generar un archivo `Readme.md` en la raíz del proyecto `<nombre_proyecto>/`.

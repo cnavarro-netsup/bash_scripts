@@ -8,3 +8,9 @@ Todos los desarrollos arrancan desde `template/template_script.sh`, usan `templa
 
 ## Librerías compartidas
 Las utilidades comunes (`lib/logger.sh`, `lib/ssh_utils.sh` y `lib/sqlite_utils.sh`) se importan según el alcance del proyecto para mantener consistencia en logging, acceso remoto o persistencia cuando corresponda.
+
+## Validación común
+- `make checks`: ejecuta `shellcheck` y `bats` sobre todos los proyectos detectados (`*/scripts` y `*/tests`).
+- `make checks-factorial` y `make checks-suma`: permiten validar un proyecto puntual.
+- La ejecución central usa `ci/run_checks.sh` y guarda una bitácora en `tmp/checks/checks_YYYYMMDD_HHMMSS.log`, además de actualizar `tmp/checks/latest.log`.
+- Convención sugerida: después de cada cambio funcional, correr `make checks` y usar `tmp/checks/latest.log` como referencia rápida del último resultado local.
