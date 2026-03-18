@@ -35,7 +35,8 @@ fi
 check_sqlite_binary()
 {
     if ! command -v sqlite3 >/dev/null 2>&1; then
-        die "[SQLite] Dependencia ausente. El comando 'sqlite3' no está instalado. Por favor instale el paquete (apt get install sqlite3)." 1
+        log_error "[SQLite] Dependencia ausente. El comando 'sqlite3' no está instalado. Por favor instale el paquete (apt get install sqlite3)."
+        return 1
     fi
 }
 
@@ -51,7 +52,9 @@ db_init()
         return 1
     fi
     
-    check_sqlite_binary
+    if ! check_sqlite_binary; then
+        return 1
+    fi
     
     if sqlite3 -cmd ".timeout ${DB_TIMEOUT}" "${DB_PATH}" "${schema}"; then
         log_info "[SQLite] Esquema de base de datos listo en: ${DB_PATH}"
@@ -73,7 +76,9 @@ db_query()
         return 1
     fi
     
-    check_sqlite_binary
+    if ! check_sqlite_binary; then
+        return 1
+    fi
     
     sqlite3 -cmd ".timeout ${DB_TIMEOUT}" "${DB_PATH}" "${sql}"
     local exit_code=$?

@@ -1,6 +1,6 @@
 bash scripts generales para @Infra
 Se emplea Google Antigravity para la creación de los scripts, siguiendo el workflow Spec-First definido en `.agents/workflows/new_script.md`.
-Todos los desarrollos arrancan desde `template/template_script.sh` y deben cumplir las reglas descritas en `.agents/rules/estilo-seguridad.md`.
+Todos los desarrollos arrancan desde `template/template_script.sh`, usan `template/template_spec.md` como guía de especificaciones y deben cumplir las reglas descritas en `.agents/rules/estilo-seguridad.md`.
 
 ## Scripts disponibles
 - `factorial/scripts/factorial.sh`: calcula factoriales iterativamente dentro del rango validado `[1, 19]`, ofrece `--dry-run` y `-d`, y registra sus pasos con la librería `lib/logger.sh`.
