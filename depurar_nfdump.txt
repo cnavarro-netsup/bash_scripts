@@ -1,0 +1,68 @@
+## 1. Objetivo
+- Nombre del script: depurar_nfdump.sh
+- Qué problema resuelve: depura los archivos ubicados en /var/cache/nfdump creados por el comando nfcapd al recibir tráfico desde mun router
+- Qué debe hacer exactamente: debe borrar todos los archivos del directorio base mencionado: /var/cache/nfdump
+- Qué NO debe hacer: no debe ejecutar ninguna otra acción. Solo se permite un comando de borrado para los archivos /var/cache/nfdump. Solo se debe acceder a ese directorio, no se debe realizar ninguna otra acción recursiva.
+
+## 2. Entorno
+- Sistema operativo objetivo: Ubuntu 24.01.1
+- Versión de Bash requerida: GNU bash, version 5.2.21(1)
+- ¿Debe ser Bash puro o POSIX-compatible? : POSIX compatible
+- ¿Requiere root/sudo? debe ser ejecutado como root. Este requerimiento no debe verificarse, es una responsabilidad del ejecutor del script
+- ¿Depende de terminal interactiva?: en fase de prueba será interactivo. Al pasar a producción se ejecutará en modo silencioso con la opción -y desde un CRON.
+
+## 3. Entradas
+- ¿Recibe argumentos?: solo recibe los flags -y y --dry-run
+- Cantidad de argumentos: no recibe ningún dato salvo los flags
+- ¿Son posicionales o con flags?:
+- Flags requeridos: -y , --dryrun
+- Formato de flags: cortos, largos o mixtos: mixtos
+- Tipos de dato aceptados:no hay datos
+- Reglas de validación:
+- Valores inválidos que deben rechazarse:
+
+## 4. Variables de entorno
+- ¿Usa variables de entorno?: no utiliza variables de entorno
+- Defaults requeridos: la opción silenciosa (-y) debe estar deshabilitada por default
+- ¿Deben mostrarse antes de ejecutar?: si
+
+## 5. Comportamiento
+- Flujo principal del script:
+- ¿Tiene operaciones destructivas?: si
+- ¿Requiere `--dry-run`?: si
+- ¿Requiere `-y` o `--yes`?: si
+- ¿Debe pedir confirmación interactiva?: si
+
+## 6. Salidas y logs
+- ¿Qué se imprime en stdout?:nada
+- ¿Qué se imprime en stderr?:código de salida: 0 si se ejecutó sin problemas, 1 en cualquier otro caso de error, archivos que no pueden borrarse, directorio vacío, estructura corrupta, etc. También se debe imprimir la catidad total de archivos borrados por stderr
+- ¿Debe usar `logger.sh`?:si
+- ¿Los logs van a consola, archivo o syslog?:syslog
+- Idioma de mensajes:ingles
+
+## 7. Integraciones y dependencias
+- ¿Usa archivos locales?:
+- ¿Usa red, SSH, API o SQLite?:no
+- Comandos externos permitidos:rm -f, librerías predefinidas necesarias
+- Comandos externos prohibidos:todos los otros
+
+## 8. Manejo de errores
+- Casos de error esperados:directoio vacío, estructura de archivos corrupta, inexistencia del directorio base: /var/cache/nfdump
+- Mensajes esperados:ninguno
+- Códigos de salida esperados: 0 si la ejecución se llevó a cabo, 1 en cualquier otro caso de error.
+
+## 9. Criterios de aceptación
+- AC-001:
+- AC-002:
+- AC-003:
+
+## 10. Ejemplos
+- Ejemplo válido 1:
+- Ejemplo válido 2:
+- Ejemplo inválido 1:
+- Ejemplo inválido 2:
+
+## Recomendaciones
+- Si el script usa librerías compartidas, indicarlo explícitamente (`lib/logger.sh`, `lib/ssh_utils.sh`, `lib/sqlite_utils.sh`).
+- Si hay ambigüedades de locale (fechas, separador decimal, timezone, encoding), definirlas antes de escribir `requirements.md`.
+- Siempre que sea posible, incluir ejemplos reales de invocación y salida esperada.
