@@ -86,7 +86,7 @@ function check_directory() {
 La llave de apertura debe estar en línea separada.
 
 Las funciones deben estar separadas por:
-"#------+---------+---------+---------+"
+#--------------------------------------
 
 ---
 
@@ -303,6 +303,6 @@ Las banderas en formato largo (como \`--dry-run\` o \`--yes\`) sugeridas en secc
 
 El agente debe:
 
-- respetar este estilo en todo el código generado
+- respetar este estilo en todo el código generado incluso la documentación de los bloques: CONFIGURACION, FUNCIONES, MAIN
 - refactorizar código existente para cumplir estas reglas
 - no introducir estilos alternativos
