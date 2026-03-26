@@ -1,0 +1,11 @@
+[Unit]
+Description=Run copia_dbf DBF transfer workflow
+Wants=network-online.target
+After=network-online.target
+
+[Service]
+Type=oneshot
+User=root
+Group=root
+Environment=HOME=/root
+ExecStart=/opt/scripts/local/exec/copia_dbf.sh

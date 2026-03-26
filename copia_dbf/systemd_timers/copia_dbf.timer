@@ -1,0 +1,11 @@
+[Unit]
+Description=Run copia_dbf twice daily
+
+[Timer]
+OnCalendar=*-*-* 00:01:00
+OnCalendar=*-*-* 12:01:00
+Persistent=true
+Unit=copia_dbf.service
+
+[Install]
+WantedBy=timers.target

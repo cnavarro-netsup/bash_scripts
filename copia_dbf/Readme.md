@@ -32,6 +32,30 @@ La primera etapa descarga los archivos desde el Windows Server al directorio loc
 - Se deja constancia de cada archivo `*.DBF` copiado en la etapa 1 y de cada archivo transferido en la etapa 2.
 - Si la segunda etapa no envia archivos nuevos, se registra `No new DBF files transferred to remote host.`.
 
+## Systemd timers
+
+- El proyecto incluye las unidades `copia_dbf/systemd_timers/copia_dbf.service` y `copia_dbf/systemd_timers/copia_dbf.timer`.
+- La unidad `service` ejecuta `/opt/scripts/local/exec/copia_dbf.sh` como `root`.
+- La unidad `timer` agenda dos ejecuciones diarias: `00:01` y `12:01`.
+
+## Instalacion de las unidades
+
+```bash
+sudo cp copia_dbf/systemd_timers/copia_dbf.service /etc/systemd/system/
+sudo cp copia_dbf/systemd_timers/copia_dbf.timer /etc/systemd/system/
+sudo systemctl daemon-reload
+sudo systemctl enable --now copia_dbf.timer
+```
+
+## Verificacion operativa
+
+```bash
+sudo systemctl status copia_dbf.timer
+sudo systemctl list-timers --all | grep copia_dbf
+sudo systemctl start copia_dbf.service
+sudo journalctl -u copia_dbf.service
+```
+
 ## Comandos ejecutados
 
 ```bash
