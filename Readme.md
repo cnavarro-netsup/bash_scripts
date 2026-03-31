@@ -7,6 +7,7 @@ Todos los desarrollos arrancan desde `template/template_script.sh`, usan `templa
 - `factorial/scripts/factorial.sh`: calcula factoriales iterativamente dentro del rango validado `[1, 19]`, ofrece `--dry-run` y `-d`, y registra sus pasos con la librería `lib/logger.sh`.
 - `suma/scripts/suma.sh`: suma exactamente dos números reales con hasta dos decimales (solo punto decimal), convierte internamente a centésimos para evitar pérdida de precisión y documenta el flujo en `suma/Readme.md`.
 - `copia_dbf/scripts/copia_dbf.sh`: copia archivos `*.DBF` en mayúsculas desde `txs02` al jump host y luego a `planif.gigot.com.ar`, registrando cada transferencia en `/var/log/copia_dbf.log` sin emitir salida operativa en consola.
+- `cp_vm/scripts/cp_vm.sh`: copia el almacenamiento remoto de una VM hacia `/srv/bk-vm` desde un snapshot LVM o desde el LV nativo, intenta respaldar tambien su XML de libvirt, valida espacio libre local, resuelve el hypervisor desde `/etc/vm_hypervisor.map` y transfiere con `ssh`, `pv` y `dd`.
 
 ## Librerías compartidas
 Las utilidades comunes (`lib/logger.sh`, `lib/ssh_utils.sh` y `lib/sqlite_utils.sh`) se importan según el alcance del proyecto para mantener consistencia en logging, acceso remoto o persistencia cuando corresponda.
