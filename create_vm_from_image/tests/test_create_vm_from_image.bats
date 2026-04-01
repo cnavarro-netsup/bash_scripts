@@ -178,8 +178,8 @@ teardown()
     run bash "${SCRIPT_PATH}" -i "${TEST_TMP}/lv_demo01_os_snap-01042026" -c "${TEST_TMP}/demo01-01042026.xml" -y
     [ "${status}" -eq 0 ]
     [[ "${output}" == *"vCPU indicadas en el XML original: 4"* ]]
-    [[ "${output}" == *"RAM indicada en el XML original: 3145728 KiB"* ]]
-    [[ "${output}" == *"La VM temporal se creara con 3 vCPU y 2097152 KiB de RAM"* ]]
+    [[ "${output}" == *"RAM indicada en el XML original: 3.00 GB"* ]]
+    [[ "${output}" == *"La VM temporal se creara con 3 vCPU y 2.00 GB de RAM"* ]]
 }
 
 @test "AC-008: fuerza 3 vCPU y 2097152 KiB en el XML temporal" {

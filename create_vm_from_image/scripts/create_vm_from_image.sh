@@ -132,6 +132,7 @@ validate_environment()
     require_command "cp"
     require_command "basename"
     require_command "date"
+    require_command "awk"
 }
 
 #--------------------------------------
@@ -195,6 +196,42 @@ extract_resource_requirements_from_xml()
     fi
 }
 
+#--------------------------------------
+format_memory_as_gb()
+{
+    local memory_value="$1"
+    local memory_unit="$2"
+    local gb_value=""
+
+    case "${memory_unit}" in
+        KiB|k|kib)
+            gb_value="$(awk -v value="${memory_value}" 'BEGIN { printf "%.2f", value / 1024 / 1024 }')"
+            ;;
+        MiB|m|mib)
+            gb_value="$(awk -v value="${memory_value}" 'BEGIN { printf "%.2f", value / 1024 }')"
+            ;;
+        GiB|g|gib)
+            gb_value="$(awk -v value="${memory_value}" 'BEGIN { printf "%.2f", value }')"
+            ;;
+        KB|kb)
+            gb_value="$(awk -v value="${memory_value}" 'BEGIN { printf "%.2f", value / 1000 / 1000 }')"
+            ;;
+        MB|mb)
+            gb_value="$(awk -v value="${memory_value}" 'BEGIN { printf "%.2f", value / 1000 }')"
+            ;;
+        GB|gb)
+            gb_value="$(awk -v value="${memory_value}" 'BEGIN { printf "%.2f", value }')"
+            ;;
+        *)
+            printf '%s %s' "${memory_value}" "${memory_unit}"
+            return 0
+            ;;
+    esac
+
+    printf '%s GB' "${gb_value}"
+}
+
+#--------------------------------------
 extract_vm_name_from_image()
 {
     local image_basename
@@ -301,9 +338,9 @@ print_execution_context()
     echo "CONFIG_FILE      : ${RESOLVED_CONFIG_FILE}"
     echo "VM_NAME          : ${XML_VM_NAME}"
     echo "XML_VCPU         : ${XML_VCPU}"
-    echo "XML_MEMORY       : ${XML_MEMORY} ${XML_MEMORY_UNIT}"
+    echo "XML_MEMORY       : $(format_memory_as_gb "${XML_MEMORY}" "${XML_MEMORY_UNIT}")"
     echo "FORCED_VCPU      : ${MAX_VCPU}"
-    echo "FORCED_MEMORY    : ${FORCED_MEMORY_KIB} KiB"
+    echo "FORCED_MEMORY    : $(format_memory_as_gb "${FORCED_MEMORY_KIB}" "KiB")"
     echo "ISOLATED_NETWORK : ${ISOLATED_NETWORK}"
     echo "TEMP_XML         : ${TEMP_XML}"
     echo "VIEWER_HOST      : ${VIEWER_HOST}"
@@ -315,8 +352,8 @@ print_execution_context()
 print_original_resource_messages()
 {
     log_info "vCPU indicadas en el XML original: ${XML_VCPU}"
-    log_info "RAM indicada en el XML original: ${XML_MEMORY} ${XML_MEMORY_UNIT}"
-    log_info "La VM temporal se creara con ${MAX_VCPU} vCPU y ${FORCED_MEMORY_KIB} KiB de RAM"
+    log_info "RAM indicada en el XML original: $(format_memory_as_gb "${XML_MEMORY}" "${XML_MEMORY_UNIT}")"
+    log_info "La VM temporal se creara con ${MAX_VCPU} vCPU y $(format_memory_as_gb "${FORCED_MEMORY_KIB}" "KiB") de RAM"
 }
 
 #--------------------------------------
