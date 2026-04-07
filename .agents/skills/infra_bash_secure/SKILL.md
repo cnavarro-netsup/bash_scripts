@@ -91,7 +91,7 @@ Si usa `ssh` o `scp`:
 - Logs claros y accionables
 - Mensajes de error concretos
 - No mezclar salida funcional con ruido si el script debe devolver un dato útil
-- Mostrar “Variables de Ejecución” antes de actuar cuando el flujo lo requiera
+- Mostrar “Variables de Ejecución” antes de actuar cuando el flujo lo requiera, excepto en modo batch con `-y` / `ASSUME_YES=TRUE`
 - No exponer datos sensibles en logs
 
 ### Verificación
@@ -150,6 +150,7 @@ Para flujos con impacto:
 - imprimir resumen de ejecución
 - pedir confirmación
 - permitir `-y` para modo no interactivo
+- si `-y` está activo, omitir confirmación y no imprimir el bloque de variables de ejecución
 - permitir `-D` para simulación si corresponde
 
 ### XML / config sensible

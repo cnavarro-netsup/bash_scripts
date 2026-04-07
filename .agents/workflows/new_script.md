@@ -38,7 +38,8 @@ Este flujo garantiza que cada nuevo proyecto de Bash siga la metodología **Spec
 4. **Desarrollar Lógica y Parseo:**
    - Implementar las opciones acordadas en la sección 4.1 del script (parseo de argumentos).
    - Actualizar `usage()`.
-   - Insertar la lógica en la sección 4.6. Si el proyecto realiza **operaciones destructivas** (modificación/eliminación de datos o archivos), implementar y respetar el flag `--dry-run`. De lo contrario, omitirlo.
+   - Si existe modo batch con `-y` / `ASSUME_YES=TRUE`, no imprimir el bloque de variables de ejecución ni pedir confirmación interactiva.
+    - Insertar la lógica en la sección 4.6. Si el proyecto realiza **operaciones destructivas** (modificación/eliminación de datos o archivos), implementar y respetar el flag `--dry-run`. De lo contrario, omitirlo.
 6. Otorgar permisos de ejecución: `chmod +x scripts/<nombre_script>.sh`.
 
 ## FASE 5: Verificación y Tests (Verification Phase)

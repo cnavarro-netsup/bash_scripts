@@ -192,6 +192,7 @@ main()
 
     # ---------------------------------------------------------------
     # 4.4 Resumen de contexto
+    # En modo batch/cron (-y) no se imprimen variables de ejecución.
     if [ "${ASSUME_YES}" != "TRUE" ]; then
         echo -e "\033[0;32m Variables de Ejecución \033[0m"
         echo "TARGET_NAME : ${TARGET_NAME}"

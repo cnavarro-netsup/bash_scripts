@@ -206,14 +206,19 @@ DEBEN ESPECIFICARSE DE LA SIGUIENTE MANERA:
 
 ---
 
-SE DEBEN MOSTRAR LAS VARIABLES DE EJECUCIÓN:
+SE DEBEN MOSTRAR LAS VARIABLES DE EJECUCIÓN SOLO CUANDO `ASSUME_YES` NO ESTÁ EN `TRUE`.
+SI EL SCRIPT SE EJECUTA CON `-y` / `ASSUME_YES=TRUE`, DEBE OPERAR EN MODO SILENCIOSO
+Y NO IMPRIMIR EL BLOQUE "Variables de Ejecución".
+
 (DONDE $G SETEA EL COLOR VERDE Y $N LO RESETEA)
-echo -e "$G Variables de Ejecución $N"
-echo "DB        : $DB"
-echo "MODE      : $MODE"
-echo "LIMIT     : $LIMIT"
-echo "ORDER     : $ORDER"
-echo "MAX       : $MAX"
+if [ "${ASSUME_YES:-FALSE}" != "TRUE" ]; then
+    echo -e "$G Variables de Ejecución $N"
+    echo "DB        : $DB"
+    echo "MODE      : $MODE"
+    echo "LIMIT     : $LIMIT"
+    echo "ORDER     : $ORDER"
+    echo "MAX       : $MAX"
+fi
 
 A CONTINUACIÓN SE DEBE USAR LA FUNCIÓN confirm_or_exit PARA CONFIRMAR O ABORTAR LA EJECUCIÓN:
 ($R SETEA COLOR ROJO)
