@@ -9,9 +9,15 @@ Todos los desarrollos arrancan desde `template/template_script.sh`, usan `templa
 - `copia_dbf/scripts/copia_dbf.sh`: copia archivos `*.DBF` en mayúsculas desde `txs02` al jump host y luego a `planif.gigot.com.ar`, registrando cada transferencia en `/var/log/copia_dbf.log` sin emitir salida operativa en consola.
 - `cp_vm/scripts/cp_vm.sh`: copia el almacenamiento remoto de una VM hacia `/srv/bk-vm` desde un snapshot LVM o desde el LV nativo, intenta respaldar tambien su XML de libvirt, valida espacio libre local, resuelve el hypervisor desde `/etc/vm_hypervisor.map` y transfiere con `ssh`, `pv` y `dd`.
 - `create_vm_from_image/scripts/create_vm_from_image.sh`: crea una VM temporal local en `nas03` desde una imagen de backup y su XML de libvirt, fuerza la primera NIC a la network `dumb`, arranca el dominio y muestra el comando manual de `virt-viewer` para validar la consola desde otra maquina.
+- `cantidad_autenticaciones/scripts/cantidad_autenticaciones.sh`: cuenta autenticaciones Exim por `A=login:<usuario>`, acumula multiples logs resueltos por patron y presenta el ranking en una tabla ASCII alineada.
 
 ## Librerías compartidas
 Las utilidades comunes (`lib/logger.sh`, `lib/ssh_utils.sh` y `lib/sqlite_utils.sh`) se importan según el alcance del proyecto para mantener consistencia en logging, acceso remoto o persistencia cuando corresponda.
+
+## Guías del agente
+- `.agents/rules/estilo-seguridad.md`: reglas always-on para estilo y seguridad base en scripts de infraestructura.
+- `.agents/workflows/new_script.md`: workflow Spec-First para nuevos proyectos Bash.
+- `.agents/skills/infra_bash_secure.md`: skill especializado en scripting Bash seguro para infraestructura, con foco en guardrails operativos, validación estricta y manejo seguro de secretos.
 
 ## Validación común
 - `make checks`: ejecuta `shellcheck` y `bats` sobre todos los proyectos detectados (`*/scripts` y `*/tests`).
