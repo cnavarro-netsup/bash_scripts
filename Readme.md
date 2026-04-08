@@ -11,6 +11,7 @@ Todos los desarrollos arrancan desde `template/template_script.sh`, usan `templa
 - `create_vm_from_image/scripts/create_vm_from_image.sh`: crea una VM temporal local en `nas03` desde una imagen de backup y su XML de libvirt, fuerza la primera NIC a la network `dumb`, arranca el dominio y muestra el comando manual de `virt-viewer` para validar la consola desde otra maquina.
 - `cantidad_autenticaciones/scripts/cantidad_autenticaciones.sh`: cuenta autenticaciones Exim por `A=login:<usuario>`, acumula multiples logs resueltos por patron y presenta el ranking en una tabla ASCII alineada.
 - `auth_watch/scripts/auth_watch.sh`: controla autenticaciones Exim del dia actual por cuenta, compara cada total contra un umbral diario y envia una alerta por mail por cada cuenta que lo alcance o supere.
+- `n_mail_watch/scripts/n_mail_watch.sh`: controla mails enviados por cuenta durante el dia actual, reutiliza la deteccion de `cantidad_mail_enviados` y envia una alerta por mail por cada cuenta que alcance o supere el umbral diario.
 
 ## Librerías compartidas
 Las utilidades comunes (`lib/logger.sh`, `lib/ssh_utils.sh` y `lib/sqlite_utils.sh`) se importan según el alcance del proyecto para mantener consistencia en logging, acceso remoto o persistencia cuando corresponda.
