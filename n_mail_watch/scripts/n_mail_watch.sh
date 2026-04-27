@@ -39,6 +39,7 @@ fi
 readonly DEFAULT_LOG_PATTERN="main.log"
 readonly DEFAULT_THRESHOLD="100"
 readonly DEFAULT_SUBJECT_PREFIX="Alerta n_mail_watch"
+readonly MAIL_FROM="mail_watch@gigot.com.ar"
 
 log_pattern="${DEFAULT_LOG_PATTERN}"
 threshold="${DEFAULT_THRESHOLD}"
@@ -346,8 +347,8 @@ Host: ${host_name}
 
     case "${mail_backend}" in
         sendmail)
-            printf 'To: %s\nSubject: %s\nContent-Type: text/plain; charset=UTF-8\n\n%s\n' \
-                "${recipient}" "${subject}" "${body}" | sendmail -t
+            printf 'From: %s\nTo: %s\nSubject: %s\nContent-Type: text/plain; charset=UTF-8\n\n%s\n' \
+                "${MAIL_FROM}" "${recipient}" "${subject}" "${body}" | sendmail -t
             ;;
         mailx)
             printf '%s\n' "${body}" | mailx -s "${subject}" "${recipient_list[@]}"

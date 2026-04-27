@@ -80,6 +80,7 @@ count_captured_mails()
     [ -f "${captured_mail}" ]
     mail_content="$(<"${captured_mail}")"
 
+    [[ "${mail_content}" == *"From: mail_watch@gigot.com.ar"* ]]
     [[ "${mail_content}" == *"To: ${DEFAULT_RECIPIENTS}"* ]]
     [[ "${mail_content}" == *"Subject: Alerta n_mail_watch: mails enviados excedidos para ana@gigot.com.ar"* ]]
     [[ "${mail_content}" == *"Cuenta de mail: ana@gigot.com.ar"* ]]
@@ -97,6 +98,7 @@ count_captured_mails()
     [ "$(count_captured_mails)" -eq 2 ]
 
     all_mail_content="$(find "${MAIL_CAPTURE_DIR}" -type f -print0 | xargs -0 cat)"
+    [[ "${all_mail_content}" == *"From: mail_watch@gigot.com.ar"* ]]
     [[ "${all_mail_content}" == *"Subject: Alerta n_mail_watch: mails enviados excedidos para ana@gigot.com.ar"* ]]
     [[ "${all_mail_content}" == *"Subject: Alerta n_mail_watch: mails enviados excedidos para cora@gigot.com.ar"* ]]
     [[ "${all_mail_content}" == *"Cuenta de mail: ana@gigot.com.ar"* ]]

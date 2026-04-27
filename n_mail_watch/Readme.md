@@ -55,6 +55,7 @@ ninguno de los dos, finaliza con error operativo.
 
 Cada mail incluye como minimo:
 
+- remitente fijo `mail_watch@gigot.com.ar`
 - asunto con prefijo `Alerta n_mail_watch`
 - cuenta de mail
 - fecha analizada
