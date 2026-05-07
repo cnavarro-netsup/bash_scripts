@@ -9,7 +9,7 @@ setup()
     MAIL_CAPTURE_DIR="${TEST_TMPDIR}/mail_capture"
     CURRENT_DATE="$(date +%F)"
     OLD_DATE="2026-01-01"
-    DEFAULT_RECIPIENTS="infraestructura@gigot.com.ar,cnavarro@gigot.com.ar,sagrelo@gigot.com.ar,mloubet@gigot.com.ar"
+    DEFAULT_RECIPIENTS="infraestructura@gigot.com.ar,cnavarro@gigot.com.ar"
 
     mkdir -p "${MOCK_BIN}" "${MAIL_CAPTURE_DIR}"
 

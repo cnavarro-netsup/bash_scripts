@@ -34,7 +34,7 @@ fi
 : "${DEBUG:=FALSE}"
 : "${ASSUME_YES:=FALSE}"
 : "${EXIM_LOG_DIR:=/var/log/exim}"
-: "${MAIL_RECIPIENT:=infraestructura@gigot.com.ar,cnavarro@gigot.com.ar,sagrelo@gigot.com.ar,mloubet@gigot.com.ar}"
+: "${MAIL_RECIPIENT:=infraestructura@gigot.com.ar,cnavarro@gigot.com.ar}"
 
 readonly DEFAULT_LOG_PATTERN="main.log"
 readonly DEFAULT_THRESHOLD="100"

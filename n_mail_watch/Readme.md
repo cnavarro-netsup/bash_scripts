@@ -22,7 +22,7 @@ regla de deteccion de `cantidad_mail_enviados`: solo cuenta lineas Exim con
   `main.log`.
 - `-t <limite>`: Umbral diario de mails enviados por cuenta. Default: `100`.
 - `-r <destinatario>`: Lista de destinatarios separada por coma. Default:
-  `infraestructura@gigot.com.ar,cnavarro@gigot.com.ar,sagrelo@gigot.com.ar,mloubet@gigot.com.ar`.
+  `infraestructura@gigot.com.ar,cnavarro@gigot.com.ar`.
 - `-d`: Activa modo debug (`set -x`).
 - `-y`: Modo batch/cron. Omite confirmacion interactiva y no imprime variables de ejecucion.
 - `-h`: Muestra ayuda.

@@ -13,8 +13,7 @@ detección de mails enviados utilizada en `cantidad_mail_enviados`.
 
 Cuando una cuenta iguale o supere el umbral configurado durante el día actual,
 el script debe enviar un aviso por correo electrónico a
-`infraestructura@gigot.com.ar`, `cnavarro@gigot.com.ar`,
-`sagrelo@gigot.com.ar` y `mloubet@gigot.com.ar`.
+`infraestructura@gigot.com.ar` y `cnavarro@gigot.com.ar`.
 
 ---
 
@@ -52,7 +51,7 @@ el script debe enviar un aviso por correo electrónico a
 | R-01 | El script solo debe contar mails enviados del día actual. |
 | R-02 | El patrón de log no puede aceptar rutas arbitrarias ni caracteres inseguros. |
 | R-03 | El umbral default debe ser `100`. |
-| R-04 | Los destinatarios default son `infraestructura@gigot.com.ar`, `cnavarro@gigot.com.ar`, `sagrelo@gigot.com.ar` y `mloubet@gigot.com.ar`. |
+| R-04 | Los destinatarios default son `infraestructura@gigot.com.ar` y `cnavarro@gigot.com.ar`. |
 | R-05 | El script debe repetir el aviso en cada corrida donde la cuenta siga excedida. |
 | R-06 | Debe enviar un mail por cuenta excedida, no un resumen consolidado. |
 | R-07 | Debe reutilizar la estructura de proyecto y estilo de `auth_watch`. |
