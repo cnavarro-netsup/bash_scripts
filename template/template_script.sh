@@ -23,10 +23,9 @@ set -euo pipefail
 # Determinar el directorio donde se ubica este script y la raíz del proyecto
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
-# Asumiendo que este script vivirá dentro de la carpeta del proyecto (ej: proyecto_x/mi_script.sh)
-# Y que las librerías "lib/" viven en el directorio padre absoluto de donde clones tus proyectos.
-# Por lo que subimos un nivel para llegar a "bash_scripts". Ajustar si es necesario.
-PROJECT_ROOT="$(cd "${SCRIPT_DIR}/.." && pwd)"
+# Asumiendo que este script vivirá en scripts/ dentro de un proyecto del repo.
+# Se suben dos niveles para llegar a la raíz compartida donde vive lib/.
+PROJECT_ROOT="$(cd "${SCRIPT_DIR}/../.." && pwd)"
 
 # Cargar la librería estándar de logs
 if [[ -f "${PROJECT_ROOT}/lib/logger.sh" ]]; then
@@ -67,6 +66,7 @@ fi
 # 3. FUNCIONES BASE OBLIGATORIAS
 # -----------------------------------------------------------------------------
 
+# Ejecuta la limpieza final o el cierre seguro del flujo.
 cleanup()
 {
     if [ "${ASSUME_YES}" != "TRUE" ]; then
@@ -75,6 +75,7 @@ cleanup()
 }
 trap cleanup EXIT ERR INT TERM
 #--------------------------------------
+# Imprime la ayuda del script con opciones, entorno y ejemplos.
 usage()
 {
     local script_name
@@ -109,6 +110,7 @@ Ejemplos:
 EOF
 }
 #--------------------------------------
+# Solicita confirmación interactiva salvo en modo batch.
 confirm_or_exit()
 {
     if [ "${ASSUME_YES}" = "TRUE" ]; then
@@ -174,16 +176,7 @@ main()
     done
 
     # ---------------------------------------------------------------
-    # 4.2 Configuración de modo silencioso (Batch/Cron)
-    if [ "${ASSUME_YES}" = "TRUE" ]; then
-        log_info() { :; }
-        log_error() { :; }
-        log_warn() { :; }
-        usage() { :; }
-    fi
-
-    # ---------------------------------------------------------------
-    # 4.3 Setup del nivel de log / ejecución
+    # 4.2 Setup del nivel de log / ejecución
     if [ "${DEBUG}" = "TRUE" ]; then
         set -x
     else
@@ -191,7 +184,7 @@ main()
     fi
 
     # ---------------------------------------------------------------
-    # 4.4 Resumen de contexto
+    # 4.3 Resumen de contexto
     # En modo batch/cron (-y) no se imprimen variables de ejecución.
     if [ "${ASSUME_YES}" != "TRUE" ]; then
         echo -e "\033[0;32m Variables de Ejecución \033[0m"
@@ -203,8 +196,9 @@ main()
     fi
     
     # ---------------------------------------------------------------
-    # 4.5 Puntos de confirmación o simulacro
-    confirm_or_exit
+    # 4.4 Puntos de confirmación o simulacro
+    # Pedir confirmación solo si el flujo real del script tiene impacto destructivo.
+    # confirm_or_exit
 
     # if [ "${DRY_RUN}" = "TRUE" ]; then
     #     log_info "[DRY-RUN] Simulación concluida. No se ejecutarán cambios reales."
@@ -212,7 +206,7 @@ main()
     # fi
 
     # ---------------------------------------------------------------
-    # 4.6 Lógica del script en sí...
+    # 4.5 Lógica del script en sí...
     log_info "Iniciando código operacional para el objetivo: ${TARGET_NAME}"
     
     # ---------------------------------------------------------

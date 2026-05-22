@@ -88,6 +88,10 @@ La llave de apertura debe estar en línea separada.
 Las funciones deben estar separadas por:
 #--------------------------------------
 
+Cada función debe incluir una breve descripción inmediatamente encima.
+La descripción debe resumir su responsabilidad en una sola línea clara,
+sin repetir literalmente el nombre de la función ni agregar comentarios obvios.
+
 ---
 
 ## Indentation

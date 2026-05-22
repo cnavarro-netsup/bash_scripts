@@ -36,10 +36,11 @@ Este flujo garantiza que cada nuevo proyecto de Bash siga la metodología **Spec
    - El script DEBE importar siempre `logger.sh`.
    - Según el `design.md`, evaluar si se debe conservar la importación de `ssh_utils.sh` o `sqlite_utils.sh`.
 4. **Desarrollar Lógica y Parseo:**
-   - Implementar las opciones acordadas en la sección 4.1 del script (parseo de argumentos).
-   - Actualizar `usage()`.
-   - Si existe modo batch con `-y` / `ASSUME_YES=TRUE`, no imprimir el bloque de variables de ejecución ni pedir confirmación interactiva.
-    - Insertar la lógica en la sección 4.6. Si el proyecto realiza **operaciones destructivas** (modificación/eliminación de datos o archivos), implementar y respetar el flag `--dry-run`. De lo contrario, omitirlo.
+    - Implementar las opciones acordadas en la sección 4.1 del script (parseo de argumentos).
+    - Actualizar `usage()`.
+    - Documentar cada función del script con una breve descripción justo encima de su definición.
+    - Si existe modo batch con `-y` / `ASSUME_YES=TRUE`, no imprimir el bloque de variables de ejecución ni pedir confirmación interactiva.
+     - Insertar la lógica en la sección 4.6. Si el proyecto realiza **operaciones destructivas** (modificación/eliminación de datos o archivos), implementar y respetar el flag `--dry-run`. De lo contrario, omitirlo.
 6. Otorgar permisos de ejecución: `chmod +x scripts/<nombre_script>.sh`.
 
 ## FASE 5: Verificación y Tests (Verification Phase)

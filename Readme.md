@@ -13,6 +13,7 @@ Todos los desarrollos arrancan desde `template/template_script.sh`, usan `templa
 - `auth_watch/scripts/auth_watch.sh`: controla autenticaciones Exim del dia actual por cuenta, compara cada total contra un umbral diario y envia una alerta por mail por cada cuenta que lo alcance o supere.
 - `n_mail_watch/scripts/n_mail_watch.sh`: controla mails enviados por cuenta durante el dia actual, reutiliza la deteccion de `cantidad_mail_enviados` y envia una alerta por mail por cada cuenta que alcance o supere el umbral diario.
 - `mail_size_analyzer/scripts/mail_size_analyzer.sh`: recorre `/srv/mail/*/Maildir` o un usuario puntual con `-u`, convierte el tamano de cada mail a MB enteros truncados y muestra la distribucion en 11 nichos mas el total analizado.
+- `clean_sent_to_todos/scripts/clean_sent_to_todos.sh`: busca mails bajo `/srv/mail/*/Maildir` o un Maildir puntual con `-u`, excluye `.Sent`, `.Template` y `dovecot*`, filtra por `From`, `Envelope-to` y anio via `mtime`, y mueve o lista las coincidencias mostrando tambien el header `Date:`.
 
 ## Librerías compartidas
 Las utilidades comunes (`lib/logger.sh`, `lib/ssh_utils.sh` y `lib/sqlite_utils.sh`) se importan según el alcance del proyecto para mantener consistencia en logging, acceso remoto o persistencia cuando corresponda.
