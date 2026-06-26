@@ -14,6 +14,7 @@ Todos los desarrollos arrancan desde `template/template_script.sh`, usan `templa
 - `n_mail_watch/scripts/n_mail_watch.sh`: controla mails enviados por cuenta durante el dia actual, reutiliza la deteccion de `cantidad_mail_enviados` y envia una alerta por mail por cada cuenta que alcance o supere el umbral diario.
 - `mail_size_analyzer/scripts/mail_size_analyzer.sh`: recorre `/srv/mail/*/Maildir` o un usuario puntual con `-u`, convierte el tamano de cada mail a MB enteros truncados y muestra la distribucion en 11 nichos mas el total analizado.
 - `clean_sent_to_todos/scripts/clean_sent_to_todos.sh`: busca mails bajo `/srv/mail/*/Maildir` o un Maildir puntual con `-u`, excluye `.Sent`, `.Template` y `dovecot*`, filtra por `From`, `Envelope-to` y anio via `mtime`, y mueve o lista las coincidencias mostrando tambien el header `Date:`.
+- `backup_users_txs03/scripts/backup_users_txs03.sh`: monta el recurso Windows txs03 via sshfs en modo read-only, copia `Desktop`, `Documents` y `Downloads` de cada perfil al staging con `rsync`, ejecuta `rdiff-backup` hacia `/srv/bk-daily/txs03-users` conservando 10 incrementos, desmonta el recurso y envía el log por mail.
 
 ## Librerías compartidas
 Las utilidades comunes (`lib/logger.sh`, `lib/ssh_utils.sh` y `lib/sqlite_utils.sh`) se importan según el alcance del proyecto para mantener consistencia en logging, acceso remoto o persistencia cuando corresponda.

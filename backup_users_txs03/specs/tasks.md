@@ -1,0 +1,17 @@
+# Tasks - backup_users_txs03
+
+- [x] Task 1 - Crear estructura del proyecto: directorios scripts/, tests/, Readme.md (AC-010)
+- [x] Task 2 - Implementar header, modo estricto, variables de configuración y modo DEBUG (AC-007, AC-008)
+- [x] Task 3 - Implementar verificación de dependencias: sshfs, rsync, rdiff-backup, mail/sendmail (AC-010)
+- [x] Task 4 - Implementar lógica de montaje sshfs con detección de estado previo; cleanup siempre desmonta (AC-001)
+- [x] Task 5 - Implementar función cleanup: desmontaje siempre, envío de mail con `mail`, eliminación de LOG_TMP (AC-001, AC-006)
+- [x] Task 6 - Registrar trap cleanup EXIT ERR INT TERM (AC-001, AC-006)
+- [x] Task 7 - Implementar logging a archivo temporal con mktemp y formato [INFO]/[WARN]/[ERROR] (AC-006, AC-007)
+- [x] Task 8 - Implementar iteración sobre perfiles en /mnt/txs03/* y copia rsync al staging (AC-002, AC-003, AC-009)
+- [x] Task 9 - Implementar ejecución de rdiff-backup desde staging hacia destino definitivo (AC-004)
+- [x] Task 10 - Implementar purga de incrementos con rdiff-backup --remove-older-than para mantener 10 (AC-005)
+- [x] Task 11 - Implementar manejo de contador de errores y código de salida final 0/1 (AC-007, AC-009)
+- [x] Task 12 - Escribir tests Bats: verificar dependencias, montaje, copia por perfil, rdiff-backup, mail (AC-010)
+- [x] Task 13 - Ejecutar shellcheck y corregir warnings (AC-010)
+- [x] Task 14 - Ejecutar ./ci/run_checks.sh -p backup_users_txs03 y validar resultado (AC-010)
+- [x] Task 15 - Completar Readme.md con descripción, configuración y ejemplo de entrada en crontab (AC-010)
