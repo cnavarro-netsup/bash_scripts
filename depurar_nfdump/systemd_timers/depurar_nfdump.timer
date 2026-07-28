@@ -1,0 +1,10 @@
+[Unit]
+Description=Run depurar_nfdump every 3 hours
+
+[Timer]
+OnCalendar=*-*-* 00/3:00:00
+Persistent=true
+Unit=depurar_nfdump.service
+
+[Install]
+WantedBy=timers.target

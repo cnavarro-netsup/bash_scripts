@@ -14,11 +14,12 @@
 3. Mostrar el contexto de ejecucion por `stderr`.
 4. Validar que el directorio objetivo exista.
 5. Recolectar las entradas directas del directorio usando glob no recursivo.
-6. Fallar si el directorio esta vacio o si encuentra una entrada que no sea archivo regular.
-7. Solicitar confirmacion salvo que se haya indicado `-y` o `--yes`.
-8. Si `--dry-run` esta activo, informar cuantos archivos se borrarian y terminar sin cambios.
-9. Si no hay simulacion, eliminar cada archivo con `rm -f -- <archivo>`.
-10. Informar el total de archivos borrados por `stderr` y syslog.
+6. Fallar si el directorio esta vacio; preservar (saltar) los archivos `nfcapd.current.*`; fallar si encuentra una entrada no regular que no sea current.
+7. Si tras excluir los `nfcapd.current.*` no queda ningun archivo por borrar, informar `Total deleted files: 0` y terminar con exit 0.
+8. Solicitar confirmacion salvo que se haya indicado `-y` o `--yes`.
+9. Si `--dry-run` esta activo, informar cuantos archivos se borrarian y terminar sin cambios.
+10. Si no hay simulacion, eliminar cada archivo objetivo con `rm -f -- <archivo>`.
+11. Informar el total de archivos borrados por `stderr` y syslog.
 
 ## 3. Validaciones
 
@@ -26,7 +27,9 @@
 - Cualquier argumento posicional produce exit 1.
 - Directorio inexistente produce exit 1.
 - Directorio vacio produce exit 1.
-- Cualquier entrada no regular dentro del directorio se interpreta como estructura corrupta y produce exit 1.
+- Los archivos `nfcapd.current.*` se preservan y nunca se incluyen en el borrado.
+- Si tras excluir los `nfcapd.current.*` no hay archivos objetivo, la ejecucion termina con exit 0 (Total deleted files: 0).
+- Cualquier entrada no regular (que no sea current) dentro del directorio se interpreta como estructura corrupta y produce exit 1.
 - Si `rm -f` falla en un archivo, la ejecucion se aborta con exit 1.
 
 ## 4. Logging
@@ -42,5 +45,6 @@
 |--------|------------|
 | Eliminacion fuera del directorio objetivo | Directorio fijo y glob no recursivo sobre un unico nivel. |
 | Salida inesperada por stdout | Configurar `LOG_STDOUT=FALSE` y usar solo `stderr`. |
-| Estructura mezclada con subdirectorios | Tratar cualquier entrada no regular como error y abortar. |
+| Estructura mezclada con subdirectorios | Tratar cualquier entrada no regular (que no sea current) como error y abortar. |
+| Borrado accidental del archivo de captura activo | Excluir por nombre cualquier archivo `nfcapd.current.*` antes de recolectar objetivos. |
 | Tests peligrosos sobre `/var/cache/nfdump` real | Usar `NFDUMP_TARGET_DIR` exclusivamente en pruebas automatizadas. |

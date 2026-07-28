@@ -1,21 +1,31 @@
 # Tareas - depurar_nfdump.sh
 
-## Fase 1: Definicion
+## Fase 1: Definicion y especificacion  [completada]
 
-- [x] Crear estructura inicial del proyecto.
-- [x] Agregar script base con ayuda y validacion minima.
-- [ ] Completar `specs/requirements.md` con objetivo, entradas, salidas y errores.
-- [ ] Confirmar dependencias externas requeridas.
+- [x] Crear la estructura del proyecto (`scripts/`, `specs/`, `tests/`).
+- [x] Completar `specs/requirements.md` (objetivo, alcance, restricciones, criterios de aceptacion).
+- [x] Completar `specs/design.md` (arquitectura, flujo, validaciones, riesgos).
 
-## Fase 2: Implementacion
+## Fase 2: Implementacion  [completada]
 
-- [ ] Implementar parseo de argumentos definitivo.
-- [ ] Implementar validacion de dependencias (`nfdump`, archivos, permisos).
-- [ ] Implementar la logica de depuracion o filtrado.
-- [ ] Agregar manejo de errores y codigos de salida.
+- [x] Implementar el parseo de argumentos (`-y`, `--yes`, `--dry-run`, `-h`, `--help`).
+- [x] Cargar `lib/logger.sh` y validar el backend de syslog.
+- [x] Recolectar los archivos objetivo excluyendo `nfcapd.current.*`, sin recursion.
+- [x] Implementar el borrado con `rm -f`, el modo `--dry-run` y la confirmacion interactiva.
+- [x] Manejar errores y codigos de salida (0/1), incluido el caso `Total deleted files: 0` con exit 0.
 
-## Fase 3: Verificacion
+## Fase 3: Verificacion  [completada]
 
-- [ ] Completar pruebas Bats con casos reales.
-- [ ] Ejecutar `shellcheck scripts/depurar_nfdump.sh`.
-- [ ] Documentar ejemplos de uso en `Readme.md`.
+- [x] Escribir las pruebas Bats del comportamiento actual (incluye current preservado y solo-current -> exit 0).
+- [x] Ejecutar `./ci/run_checks.sh -p depurar_nfdump` (shellcheck + bats en verde).
+
+## Fase 4: Documentacion  [completada]
+
+- [x] Documentar el comportamiento real y ejemplos de uso en `Readme.md`.
+- [x] Documentar la automatizacion en produccion (systemd timers) y la alternativa cron.
+
+## Pendientes / higiene
+
+- [ ] (Opcional) Silenciar los warnings `SC2034` de shellcheck sobre las variables `LOG_*`
+      (consumidas por `lib/logger.sh` tras el `source`), p. ej. con `# shellcheck disable=SC2034`.
+      Hoy el gate del repo los tolera y los checks pasan en verde.

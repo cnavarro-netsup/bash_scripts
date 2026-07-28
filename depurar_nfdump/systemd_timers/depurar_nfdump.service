@@ -1,0 +1,8 @@
+[Unit]
+Description=Purge rotated nfcapd files in /var/cache/nfdump (preserves nfcapd.current.*)
+
+[Service]
+Type=oneshot
+User=root
+Group=root
+ExecStart=/opt/script/local/exec/traffic_flow/depurar_nfdump.sh -y

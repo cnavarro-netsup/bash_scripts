@@ -4,11 +4,12 @@ set -euo pipefail
 
 #------+---------+---------+---------+---------+---------+---------+---------+
 # NOMBRE: depurar_nfdump.sh
-# VERSION: 1.0.0
+# VERSION: 1.1.0
 # AUTOR: CPN
-# MODELO: OpenCode / gpt-5.4
-# FECHA: 2026-03-18
-# DESCRIPCION: Elimina archivos directos de /var/cache/nfdump de forma segura.
+# Agent/Model: Kiro CLI/claude-opus-4.8
+# FECHA: 28-Julio-2026
+# DESCRIPCION: Elimina los archivos de /var/cache/nfdump de forma segura,
+#              preservando los archivos de captura activos nfcapd.current.*.
 # USO: ./scripts/depurar_nfdump.sh [-y|--yes] [--dry-run]
 # ESTADO: desarrollo
 #------+---------+---------+---------+---------+---------+---------+---------+
@@ -35,6 +36,7 @@ else
     exit 1
 fi
 #--------------------------------------
+# Imprime por stderr la ayuda de uso con las opciones disponibles.
 usage()
 {
     local script_name
@@ -54,6 +56,7 @@ Options:
 EOF
 }
 #--------------------------------------
+# Muestra por stderr las variables de ejecucion antes de operar.
 print_context()
 {
     printf 'Execution Context\n' >&2
@@ -61,7 +64,9 @@ print_context()
     printf 'ASSUME_YES : %s\n' "${ASSUME_YES}" >&2
     printf 'DRY_RUN    : %s\n' "${DRY_RUN}" >&2
 }
-#--------------------------------------onfirm_or_exit()
+#--------------------------------------
+# Pide confirmacion interactiva y aborta si no se acepta, salvo en modo batch.
+confirm_or_exit()
 {
     local confirm
 
@@ -83,6 +88,7 @@ print_context()
     esac
 }
 #--------------------------------------
+# Analiza los flags permitidos y rechaza cualquier otro argumento o posicional.
 parse_arguments()
 {
     while [[ "$#" -gt 0 ]]; do
@@ -123,6 +129,7 @@ parse_arguments()
     fi
 }
 #--------------------------------------
+# Verifica el backend de syslog y la existencia del directorio objetivo.
 validate_runtime()
 {
     if ! logger_validate_backend; then
@@ -135,27 +142,42 @@ validate_runtime()
     fi
 }
 #--------------------------------------
+# Recolecta los archivos a borrar excluyendo los nfcapd.current.* y valida la estructura.
 collect_entries()
 {
     local entry
+    local base
+    local all_entries
 
     shopt -s nullglob
-    ENTRIES=("${NFDUMP_TARGET_DIR}"/*)
+    all_entries=("${NFDUMP_TARGET_DIR}"/*)
     shopt -u nullglob
 
-    if [[ "${#ENTRIES[@]}" -eq 0 ]]; then
+    if [[ "${#all_entries[@]}" -eq 0 ]]; then
         log_error "Target directory is empty: ${NFDUMP_TARGET_DIR}"
         exit 1
     fi
 
-    for entry in "${ENTRIES[@]}"; do
+    ENTRIES=()
+    for entry in "${all_entries[@]}"; do
+        base="$(basename -- "${entry}")"
+
+        # Preservar los archivos de captura activos.
+        if [[ "${base}" == nfcapd.current.* ]]; then
+            continue
+        fi
+
+        # Cualquier entrada no regular (que no sea current) es estructura corrupta.
         if [[ ! -f "${entry}" ]]; then
             log_error "Corrupted structure detected: non-regular entry '${entry}'"
             exit 1
         fi
+
+        ENTRIES+=("${entry}")
     done
 }
 #--------------------------------------
+# Simula el borrado informando cuantos archivos se eliminarian, sin modificar nada.
 run_dry_run()
 {
     local entry
@@ -170,6 +192,7 @@ run_dry_run()
     log_info "Dry-run completed. Total files to delete: ${total}"
 }
 #--------------------------------------
+# Elimina cada archivo regular con rm -f e informa el total borrado.
 delete_entries()
 {
     local entry
@@ -187,12 +210,20 @@ delete_entries()
     log_info "Deletion completed successfully. Total deleted files: ${total}"
 }
 #--------------------------------------
+# Orquesta el flujo: parseo, validacion, contexto, confirmacion y borrado o simulacro.
 main()
 {
     parse_arguments "$@"
     validate_runtime
     print_context
     collect_entries
+
+    if [[ "${#ENTRIES[@]}" -eq 0 ]]; then
+        printf 'Total deleted files: %d\n' 0 >&2
+        log_info "No files to delete (only current captures present)."
+        exit 0
+    fi
+
     confirm_or_exit
 
     if [[ "${DRY_RUN}" = "TRUE" ]]; then

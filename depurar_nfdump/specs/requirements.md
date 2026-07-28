@@ -2,7 +2,7 @@
 
 ## 1. Descripcion del Problema
 
-- Crear un script Bash que elimine los archivos generados por `nfcapd` ubicados directamente en `/var/cache/nfdump`.
+- Crear un script Bash que elimine los archivos generados por `nfcapd` ubicados directamente en `/var/cache/nfdump`, exceptuando los archivos de captura activos `nfcapd.current.*`.
 - El script debe limitarse a esa operacion y no debe ejecutar acciones recursivas ni tocar otros directorios.
 
 ## 2. Alcance
@@ -12,7 +12,7 @@
 - Solicitar confirmacion interactiva por defecto.
 - Omitir confirmacion con `-y` o `--yes`.
 - Simular la eliminacion con `--dry-run` sin borrar archivos.
-- Eliminar solo archivos regulares ubicados directamente en `/var/cache/nfdump`.
+- Eliminar los archivos regulares ubicados directamente en `/var/cache/nfdump`, EXCEPTO los archivos de captura activos cuyo nombre empieza con `nfcapd.current.`.
 - Imprimir todos los mensajes operativos y de error por `stderr`.
 - Registrar eventos mediante `lib/logger.sh` y syslog usando `logger`.
 
@@ -33,6 +33,7 @@
 | R-04 | Si existe cualquier entrada no regular dentro del directorio objetivo, debe considerarse estructura corrupta y fallar. |
 | R-05 | `stdout` debe permanecer vacio en todos los flujos. |
 | R-06 | Los logs deben enviarse a `stderr` y a syslog mediante `logger` usando `lib/logger.sh`. |
+| R-07 | Los archivos cuyo nombre empieza con `nfcapd.current.` no deben eliminarse ni modificarse. |
 
 ## 5. Criterios de Aceptacion
 
@@ -42,10 +43,12 @@
 | AC-002 | Invocar con un flag invalido o argumento posicional | Informa error por `stderr` y finaliza con exit 1. |
 | AC-003 | Invocar con `--dry-run` y archivos presentes | No elimina archivos, informa cuantos se borrarian y finaliza con exit 0. |
 | AC-004 | Invocar sin `-y/--yes` y rechazar la confirmacion | No elimina archivos y finaliza con exit 1. |
-| AC-005 | Invocar con `-y` o `--yes` y archivos validos | Elimina todos los archivos regulares directos, informa el total borrado y finaliza con exit 0. |
+| AC-005 | Invocar con `-y` o `--yes` y archivos validos | Elimina todos los archivos regulares directos EXCEPTO los `nfcapd.current.*`, informa el total borrado y finaliza con exit 0. |
 | AC-006 | Directorio inexistente | Informa error por `stderr` y finaliza con exit 1. |
 | AC-007 | Directorio vacio | Informa error por `stderr` y finaliza con exit 1. |
 | AC-008 | Directorio con subdirectorios o entradas no regulares | Informa estructura corrupta por `stderr` y finaliza con exit 1. |
+| AC-009 | Directorio con `nfcapd.current.*` y otros archivos | Preserva los `nfcapd.current.*` y elimina el resto; finaliza con exit 0. |
+| AC-010 | Directorio cuyos unicos archivos son `nfcapd.current.*` | No elimina nada, informa `Total deleted files: 0` y finaliza con exit 0. |
 
 ## 6. Edge Cases identificados
 

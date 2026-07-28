@@ -92,6 +92,28 @@ EOF
     [ ! -e "${NFDUMP_TARGET_DIR}/only.nfcapd" ]
 }
 
+@test "Preserva nfcapd.current.* y borra el resto con -y" {
+    : > "${NFDUMP_TARGET_DIR}/nfcapd.202607281305"
+    : > "${NFDUMP_TARGET_DIR}/nfcapd.202607281310"
+    : > "${NFDUMP_TARGET_DIR}/nfcapd.current.3905561"
+
+    run "${SCRIPT}" -y
+    [ "${status}" -eq 0 ]
+    [[ "${output}" == *"Total deleted files: 2"* ]]
+    [ ! -e "${NFDUMP_TARGET_DIR}/nfcapd.202607281305" ]
+    [ ! -e "${NFDUMP_TARGET_DIR}/nfcapd.202607281310" ]
+    [ -f "${NFDUMP_TARGET_DIR}/nfcapd.current.3905561" ]
+}
+
+@test "Solo current presente no borra nada y sale 0" {
+    : > "${NFDUMP_TARGET_DIR}/nfcapd.current.3905561"
+
+    run "${SCRIPT}" -y
+    [ "${status}" -eq 0 ]
+    [[ "${output}" == *"Total deleted files: 0"* ]]
+    [ -f "${NFDUMP_TARGET_DIR}/nfcapd.current.3905561" ]
+}
+
 @test "Falla con estructura corrupta por subdirectorio" {
     mkdir -p "${NFDUMP_TARGET_DIR}/nested"
 
